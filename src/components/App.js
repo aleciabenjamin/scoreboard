@@ -1,55 +1,38 @@
 import React from 'react';
 import Header from './Header';
-
-class Counter extends React.Component {
-  state = {
-    score: 0
-  };
-
-  incrementScore = () => {
-    this.setState( prevState => ({
-      score: prevState.score + 1
-    }));
-  }
-
-  decrementScore = () => {
-    this.setState( prevState => ({
-      score: prevState.score - 1
-    }));
-  }
-
-  render() {
-    return (
-      <div className="counter">
-        <button className="counter-action decrement" onClick={this.decrementScore}> - </button>
-        <span className="counter-score">{ this.state.score }</span>
-        <button className="counter-action increment" onClick={this.incrementScore}> + </button>
-      </div>
-    );
-  }
-}
+import Player from './Player';
 
 class App extends React.Component {
   state = {
     players: [
       {
-        name: "Guil",
+				name: "Guil",
+				score: 0,
         id: 1
       },
       {
-        name: "Treasure",
+				name: "Treasure",
+				score: 0,
         id: 2
       },
       {
-        name: "Ashley",
+				name: "Ashley",
+				score: 0,
         id: 3
       },
       {
-        name: "James",
+				name: "James",
+				score: 0,
         id: 4
       }
     ]
-  };
+	};
+
+	handleScoreChange = (index, delta) => {
+    this.setState( prevState => ({
+      score: prevState.players[index].score += delta
+		}));
+  }
 
   handleRemovePlayer = (id) => {
     this.setState( prevState => {
@@ -68,11 +51,14 @@ class App extends React.Component {
         />
 
         {/* Players list */}
-        {this.state.players.map( player =>
+        {this.state.players.map( (player, index) =>
           <Player
-            name={player.name}
+						name={player.name}
+						score={player.score}
             id={player.id}
-            key={player.id.toString()}
+						key={player.id.toString()}
+						index={index}
+						changeScore={this.handleScoreChange}
             removePlayer={this.handleRemovePlayer}
           />
         )}
